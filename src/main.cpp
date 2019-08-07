@@ -8,7 +8,7 @@ uint8_t res = 0;
 uint16_t max_pwm = 0;
 
 const uint32_t sample_time = 5;
-const uint32_t time;
+uint32_t time;
 
 DriveMotor motor1(IN4, IN3);
 Encoder enc(ENC_A1, ENC_B1);
