@@ -7,6 +7,9 @@
 uint8_t res = 0;
 uint16_t max_pwm = 0;
 
+const uint32_t sample_time = 5;
+const uint32_t time;
+
 DriveMotor motor1(IN4, IN3);
 Encoder enc(ENC_A1, ENC_B1);
 
@@ -26,20 +29,24 @@ void setup() {
 	Serial.println(max_pwm);
 
 	myPID.SetOutputLimits(-max_pwm, max_pwm);
-	myPID.SetSampleTime(5);
+	myPID.SetSampleTime(sample_time);
 
 	Input = enc.read();
 	Setpoint = 1200;
 
 	myPID.SetMode(AUTOMATIC);
+	
+	time = millis();
 }
 
 void loop() {
 	Input = enc.read();
 	myPID.Compute();
 	motor1.set_pwm(int16_t(Output));
-
-	Serial.print(enc.read());
-	Serial.print(" ");
-	Serial.println(Output);
+	if (millis() - time > sample_time) {
+		time += sample_time;
+		Serial.print(enc.read());
+		Serial.print(" ");
+		Serial.println(Output);
+	}
 }
