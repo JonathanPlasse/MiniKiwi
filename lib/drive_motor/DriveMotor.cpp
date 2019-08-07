@@ -20,7 +20,7 @@ void DriveMotor::set_pwm(int16_t pwm){
 	}
 	else{
 		analogWrite(_in1, 0);
-		analogWrite(_in2, pwm);
+		analogWrite(_in2, -pwm);
 	}
 	_pwm = pwm;
 }

@@ -7,11 +7,11 @@
 uint8_t res = 0;
 uint16_t max_pwm = 0;
 
-DriveMotor motor1(IN3, IN4);
+DriveMotor motor1(IN4, IN3);
 Encoder enc(ENC_A1, ENC_B1);
 
 double Setpoint, Input, Output;
-PID myPID(&Input, &Output, &Setpoint,1,1,1, DIRECT);
+PID myPID(&Input, &Output, &Setpoint,6,0,0, DIRECT);
 
 void setup() {
 	delay(5000);
@@ -25,9 +25,13 @@ void setup() {
 	Serial.print("Max PWM value calculated : +-");
 	Serial.println(max_pwm);
 
-	Input = enc.read();
-	Setpoint = 600;
+	myPID.SetOutputLimits(-max_pwm, max_pwm);
+	myPID.SetSampleTime(5);
 
+	Input = enc.read();
+	Setpoint = 1200;
+
+	myPID.SetMode(AUTOMATIC);
 }
 
 void loop() {
@@ -38,5 +42,4 @@ void loop() {
 	Serial.print(enc.read());
 	Serial.print(" ");
 	Serial.println(Output);
-	delay(100);
 }
