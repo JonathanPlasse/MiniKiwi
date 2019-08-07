@@ -6,7 +6,7 @@
 
 class SpeedController{
 public:
-	//Set up speed control
+	//Set up speed control, sampleTime is in µs
 	SpeedController(DriveMotor mot, Encoder enc, int stepsPerTurn, int sampleTime);
 
 	//Sets PID Values
